@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { connect } from 'react-redux'
 import subscribeToGames from '../actions/games/subscribe'
 import createGame from '../actions/games/create'
+import joinGame from '../actions/games/join'
 import './Lobby.sass'
 
 class Lobby extends PureComponent {
@@ -21,7 +22,6 @@ class Lobby extends PureComponent {
     return (
       <div className="games lobby">
         <h1>Lobby</h1>
-
         { this.props.games.length === 0 ?
           <div className="no-results">
             <h2>No Games yet! Feel free to create one!</h2>
@@ -38,6 +38,7 @@ class Lobby extends PureComponent {
                   zDepth={1}
                   style={{ padding: '12px 24px' }}>
                   <h4>{ game.title }</h4>
+                  { game.playerIds.length < 2 && <button onClick={() => {this.props.joinGame(game._id)}}>Join</button> }
                 </Paper>
               )
             })}
@@ -49,4 +50,4 @@ class Lobby extends PureComponent {
 }
 
 const mapStateToProps = ({ games }) => ({ games })
-export default connect(mapStateToProps, { subscribeToGames, createGame })(Lobby)
+export default connect(mapStateToProps, { subscribeToGames, createGame, joinGame })(Lobby)
